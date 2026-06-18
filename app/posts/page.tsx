@@ -1,5 +1,7 @@
 import Link from "next/link"
 import { prisma } from "@/lib/prisma"
+import { Show } from '@clerk/nextjs'
+
 
 export default async function Page() {
   const posts = await prisma.post.findMany()
@@ -63,7 +65,18 @@ export default async function Page() {
             </div>
           ))}
         </div>
-      )}
+      )} 
+       <Show
+        when={{ plan: 'primium' }}
+        fallback={
+          <div>
+            <p>This is a premium feature.</p>
+            <a href="/pricing">Upgrade to Premium →</a>
+          </div>
+        }
+      >
+        <p>Premium only content!</p>
+      </Show>
     </div>
   )
 }
